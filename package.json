@@ -23,7 +23,7 @@
     "build": "node build/build.js",
     "front": "node build/dev-server.js",
     "lint": "eslint --ext .js,.vue src",
-    "test": "ava --watch"
+    "test": "ava"
   },
   "dependencies": {
     "graphql": "^0.7.2",
