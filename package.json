@@ -19,10 +19,11 @@
   },
   "homepage": "https://github.com/dev-academy-programme/feedbacker#readme",
   "scripts": {
-    "back": "nodemon --inspect server/server.js",
-    "build": "node client/build/build.js",
-    "front": "node client/build/dev-server.js",
-    "lint": "eslint --ext .js,.vue src"
+    "back": "nodemon --inspect src/server/server.js",
+    "build": "node build/build.js",
+    "front": "node build/dev-server.js",
+    "lint": "eslint --ext .js,.vue src",
+    "test": "ava --watch"
   },
   "dependencies": {
     "graphql": "^0.7.2",
