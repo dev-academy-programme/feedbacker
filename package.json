@@ -23,7 +23,7 @@
     "build": "node build/build.js",
     "front": "node build/dev-server.js",
     "lint": "eslint --ext .js,.vue src",
-    "test": "ava"
+    "test": "ava --watch"
   },
   "dependencies": {
     "dotenv": "^2.0.0",
