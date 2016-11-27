@@ -23,20 +23,82 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 # State
 
+Backend will return something like this from the API:
+
 ```
 {
-  feedback: {
-    forms: [
-      {
-        title: "",
-        designator: "",
-        questions: [
-          {
-            
-          }
-        ]
-      }
-    ]
-  }
+  questions: [
+    {
+      "designator": "1.0",
+      "title": "Cohort",
+      "answers": [
+        "kowhai-2016",
+        "weka-2016",
+        "kokako-2016"
+      ]
+    },
+    {
+      "designator": "1.1",
+      "title": "GitHub",
+      "answers": [
+        "wombat",
+        "aardvark",
+        "kumquat"
+      ]
+    },
+    {
+      "designator": "1.2",
+      "title": "How are you?",
+      "answers": [
+        "Fine",
+        "Not bad",
+        "Pretty terrible"
+      ]
+    }
+  ]
+}
+```
+
+If `trackByDesignators` is an array, for example:
+
+```
+parseForm(rawData, {
+  trackByDesignators: ['1.2']
+}
+``` 
+
+the answers will look like this:
+
+```
+{
+  questions: [
+    {
+      "designator": "1.0",
+      "title": "Cohort",
+      "answers": [
+        { "answer": "kowhai-2016", "GitHub": "wombat" }
+        { "answer": "weka-2016", "GitHub": "aardvark" }
+        { "answer": "kokako-2016", "GitHub": "kumquat" }
+      ]
+    },
+    {
+      "designator": "1.1",
+      "title": "GitHub",
+      "answers": [
+        { "answer": "wombat", "GitHub": "wombat" }
+        { "answer": "aardvark", "GitHub": "aardvark" }
+        { "answer": "kumquat", "GitHub": "aardvark" }
+      ]
+    },
+    {
+      "designator": "1.2",
+      "title": "How are you?",
+      "answers": [
+        { "answer": "Fine", "GitHub": "wombat" }
+        { "answer": "Not bad", "GitHub": "aardvark" }
+        { "answer": "Pretty terrible", "GitHub": "aardvark" }
+      ]
+    }
+  ]
 }
 ```
