@@ -7,11 +7,7 @@
 <script>
 export default {
   name: 'cohort-chooser',
-  data () {
-    return {
-      msg: 'COHORT-CHOOSER'
-    }
-  }
+  data: store
 }
 </script>
 
