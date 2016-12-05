@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <hello></hello>
+    <cohort-chooser></cohort-chooser>
   </div>
 </template>
 
 <script>
-import Hello from './components/Hello'
+import CohortChooser from './components/CohortChooser'
 
 export default {
   name: 'app',
   components: {
-    Hello
+    CohortChooser
   }
 }
 </script>
