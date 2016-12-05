@@ -1,11 +1,10 @@
 const koa = require('koa')
-const koaRouter = require('koa-router')
+const router = require('koa-router')()
 const koaBody = require('koa-bodyparser')
 const graphqlKoa = require('graphql-server-koa').graphqlKoa
 const makeExecutableSchema = require('graphql-tools').makeExecutableSchema;
 
 const app = new koa()
-const router = new koaRouter()
 const PORT = 3000
 
 app.use(koaBody())
@@ -54,7 +53,14 @@ const schema = makeExecutableSchema({
   resolvers
 })
 
-router.post('/graphql', graphqlKoa({ schema }))
+//router.post('/graphql', graphqlKoa({ schema }))
+
+router.post('/graphql', (ctx, next) => {
+  ctx.body = {
+    questions: []
+  }
+})
+
 app.use(router.routes())
 app.use(router.allowedMethods())
 app.listen(PORT)
