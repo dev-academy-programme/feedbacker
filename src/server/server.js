@@ -1,66 +1,26 @@
-const koa = require('koa')
-const router = require('koa-router')()
-const koaBody = require('koa-bodyparser')
-const graphqlKoa = require('graphql-server-koa').graphqlKoa
-const makeExecutableSchema = require('graphql-tools').makeExecutableSchema;
+import Koa from 'koa'
+import koaBody from 'koa-bodyparser'
+import koaRouter from 'koa-router'
+import koaStatic from 'koa-static'
+import { graphiqlKoa } from 'graphql-server-koa'
 
-const app = new koa()
-const PORT = 3000
+import graphqlEndpoint from './graphql-endpoint'
+
+const app = new Koa()
+const router = koaRouter()
 
 app.use(koaBody())
+app.use(koaStatic('public'))
 
-const data = {
-  students: ['foo', 'bar', 'baz'],
-  units: ['wombat', 'aardvark', 'kinkajou'],
-  questions: ['kumquat', 'durian', 'caperberry']
+router.get('/graphql', graphqlEndpoint)
+router.post('/graphql', graphqlEndpoint)
+
+if (process.env.NODE_ENV !== 'production') {
+  router.get('/graphiql', graphiqlKoa({ endpointURL: '/graphql' }))
 }
-
-const typeDefs = `
-  input WhereIn {
-    search: [String]
-  }
-
-  type SheetsAPIDataset {
-    students: [String],
-    units: [String]
-  }
-
-  type Query {
-    students(studentList: WhereIn, unitList: WhereIn) : SheetsAPIDataset
-  }
-
-  schema {
-    query: Query
-  }
-`
-
-const resolvers = {
-  Query: {
-    students (_, {studentList, unitList}) {
-      const students = data.students.filter(student => studentList.search.includes(student))
-      const units = data.units.filter(unit => unitList.search.includes(unit))
-
-      return {
-        students,
-        units
-      }
-    }
-  }
-}
-
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers
-})
-
-//router.post('/graphql', graphqlKoa({ schema }))
-
-router.post('/graphql', (ctx, next) => {
-  ctx.body = {
-    questions: []
-  }
-})
 
 app.use(router.routes())
 app.use(router.allowedMethods())
-app.listen(PORT)
+
+export default app
+
