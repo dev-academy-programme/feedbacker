@@ -1,8 +1,7 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
 import App from './App'
 
-Vue.use(Vuex)
+import store from './store'
 
 /* eslint-disable no-new */
 new Vue({

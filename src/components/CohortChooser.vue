@@ -7,7 +7,9 @@
 <script>
 export default {
   name: 'cohort-chooser',
-  data: store
+  computed: {
+    count: () => store.state.msg
+  }
 }
 </script>
 
