@@ -19,11 +19,15 @@
   },
   "homepage": "https://github.com/dev-academy-programme/feedbacker#readme",
   "scripts": {
-    "back": "nodemon --inspect src/server/server.js",
     "build": "node build/build.js",
-    "front": "node build/dev-server.js",
+    "front": "webpack-dev-server --content-base public/ --hot --inline",
+    "back": "nodemon -r dotenv/config -r babel-register -- src/server",
+    "back:debug": "nodemon -r dotenv/config -r babel-register --inspect -- src/server",
+    "knex": "knex",
     "lint": "eslint --ext .js,.vue src",
-    "test": "ava --watch"
+    "start": "node --require 'dotenv/config' server",
+    "test": "jest",
+    "test:watch": "npm test -- --watch"
   },
   "dependencies": {
     "dotenv": "^2.0.0",
@@ -35,13 +39,13 @@
     "koa": "^2.0.0",
     "koa-bodyparser": "^3.2.0",
     "koa-router": "^7.1.0",
+    "koa-static": "^3.0.0",
     "ramda": "^0.23.0",
     "vue": "^2.1.10",
     "vuex": "^2.1.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
-    "ava": "^0.16.0",
     "babel-core": "^6.0.0",
     "babel-eslint": "^7.0.0",
     "babel-loader": "^6.0.0",
@@ -66,6 +70,7 @@
     "function-bind": "^1.0.2",
     "html-webpack-plugin": "^2.8.1",
     "http-proxy-middleware": "^0.17.2",
+    "jest": "^18.1.0",
     "json-loader": "^0.5.4",
     "nodemon": "^1.11.0",
     "opn": "^4.0.2",
@@ -100,6 +105,41 @@
   "engines": {
     "node": ">= 7.0.0",
     "npm": ">= 3.0.0"
+  },
+  "eslintConfig": {
+    "env": {
+      "jest": true
+    },
+    "extends": [
+      "standard"
+    ],
+    "installedESLint": true,
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "plugins": [
+      "async-await",
+      "html",
+      "promise",
+      "standard"
+    ],
+    "rules": {
+      "no-unused-vars": [
+        "error",
+        {
+          "varsIgnorePattern": "^__"
+        }
+      ]
+    }
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    }
   },
   "lambci": {
     "cmd": "nave use 7 bash -c 'npm install && npm test'"
