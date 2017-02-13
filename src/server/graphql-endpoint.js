@@ -4,25 +4,18 @@ import { makeExecutableSchema } from 'graphql-tools'
 import sheetData from './sheet-data'
 
 const typeDefs = `
-  input WhereIn {
+  input StudentsInput {
+    search: [String]
+  }
+
+  input UnitsInput {
     search: [String]
   }
 
   type SheetsAPIDataset {
-    students: [String],
-    units: [String]
+    students: [Student],
+    units: [Unit]
   }
-
-  type Query {
-    students(studentList: WhereIn, unitList: WhereIn) : SheetsAPIDataset
-  }
-
-  schema {
-    query: Query
-  }
-
-  scalar Date
-  scalar UUID
 
   type Student {
     github: String!
@@ -31,11 +24,20 @@ const typeDefs = `
   type Unit {
     designator: String!
   }
+
+  type Query {
+    students(studentList: StudentsInput, unitList: UnitsInput) : SheetsAPIDataset
+  }
+
+  schema {
+    query: Query
+  }
+
 `
 
 const resolvers = {
   Query: {
-    users: (_, args) => sheetData.all(args).catch(console.error)
+    students: (_, args) => sheetData.students(args)
   }
 }
 
